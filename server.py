@@ -24,7 +24,7 @@ def get_base_url(port):
         project_id = info['project_id']
         base_url = '/{}/port/{}/'.format(project_id, port)
     except Exception as e:
-        print(f'Server is probably running in production, so a base url does not apply: \n{e}')
+        print('Server is probably running in production, so a base url does not apply: \n{}'.format(e))
         base_url = '/'
     return base_url
 
