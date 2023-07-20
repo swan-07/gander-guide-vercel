@@ -8,7 +8,7 @@ import base64
 import random
 import torch
 
-def get_base_url(port:int) -> str:
+def get_base_url(port):
     '''
     Returns the base URL to the webserver if available.
     
@@ -17,6 +17,7 @@ def get_base_url(port:int) -> str:
     Inputs: port (int) - the port number of the webserver
     Outputs: base_url (str) - the base url to the webserver
     '''
+    # type: (int) -> str
     
     try:
         info = json.load(open(os.path.join(os.environ['HOME'], '.smc', 'info.json'), 'r'))
