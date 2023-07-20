@@ -22,7 +22,7 @@ def get_base_url(port):
     try:
         info = json.load(open(os.path.join(os.environ['HOME'], '.smc', 'info.json'), 'r'))
         project_id = info['project_id']
-        base_url = f'/{project_id}/port/{port}/'
+        base_url = '/{}/port/{}/'.format(project_id, port)
     except Exception as e:
         print(f'Server is probably running in production, so a base url does not apply: \n{e}')
         base_url = '/'
