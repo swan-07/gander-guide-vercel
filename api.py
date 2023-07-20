@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, make_response, jsonify
 import json
 import cv2
 import os
@@ -36,7 +36,7 @@ ctrl + c
 '''
 global tracker, vision_mode
 
-vision_mode=1 # 1 is normal, 2 is computer vision, 3 is rainbows and unicorns
+vision_mode = 1 # 1 is normal, 2 is computer vision, 3 is rainbows and unicorns
 port = 5050
 base_url = get_base_url(port)
 
