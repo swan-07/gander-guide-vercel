@@ -83,7 +83,7 @@ class MiDaS:
         # x and y to check for furniture there
         cv2.circle(self.website_image, pos, 8, (0, 0, 0), 2) # draw a circle to show where furniture is being checked
 
-        self.current_warning = f"Saying {something}!" if pos is None else f"{self.find_furniture(pos[0], pos[1], pic)} {something}" # placeholder for text to speech
+        self.current_warning = "Saying {0}!".format(something) if pos is None else "{0} {1}".format(self.find_furniture(pos[0], pos[1], pic), something)
         print("PLACEHOLDER SAY() CALLED: ", self.current_warning) 
 
     def predict(self, img):
@@ -127,9 +127,9 @@ class MiDaS:
                     self.say(" in the way; back up", pos=point, pic=colorful_image)
                 self.states.append(1)
             if vibrate == "Website":
-                cv2.putText(self.website_image, f"Most recent warning: {self.current_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
-                cv2.putText(self.website_image, f"Vibration amplitude: {self.amplitude}", (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
-                cv2.putText(self.website_image, f"Vibration duration: {self.period}", (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                cv2.putText(self.website_image, "Most recent warning: {}".format(self.current_warning), (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                cv2.putText(self.website_image, "Vibration amplitude: {}".format(self.amplitude), (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                cv2.putText(self.website_image, "Vibration duration: {}".format(self.period), (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
 
         else:
 
@@ -173,9 +173,9 @@ class MiDaS:
                             self.say("Turn right")
                         self.states.append(6)
                 if vibrate == "Website":
-                    cv2.putText(self.website_image, f"Most recent warning: {self.current_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
-                    cv2.putText(self.website_image, f"Vibration amplitude: {self.amplitude}", (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
-                    cv2.putText(self.website_image, f"Vibration duration: {self.period}", (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                    cv2.putText(self.website_image, "Most recent warning: {}".format(self.current_warning), (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                    cv2.putText(self.website_image, "Vibration amplitude: {}".format(self.amplitude), (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                    cv2.putText(self.website_image, "Vibration duration: {}".format(self.period), (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
             else:
                 # an obstruction exists
                 right = np.argmax(column_sums) > self.width / 2
@@ -191,9 +191,9 @@ class MiDaS:
                         self.say(" to the left; turn right", pos=np.unravel_index(np.argmax(output * self.depth_filter), output.shape), pic=colorful_image)
                     self.states.append(int(right) + 2)
                 if vibrate == "Website":
-                    cv2.putText(self.website_image, f"Most recent warning: {self.current_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
-                    cv2.putText(self.website_image, f"Vibration amplitude: {self.amplitude}", (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
-                    cv2.putText(self.website_image, f"Vibration duration: {self.period}", (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                    cv2.putText(self.website_image, "Most recent warning: {}".format(self.current_warning), (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                    cv2.putText(self.website_image, "Vibration amplitude: {}".format(self.amplitude), (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                    cv2.putText(self.website_image, "Vibration duration: {}".format(self.period), (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
 
         if vibrate != "Yes":
             self.states.pop(0)

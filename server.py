@@ -56,7 +56,7 @@ def euclid_dist(x1, y1, x2, y2):
     return np.linalg.norm([x2 - x1, y2 - y1])
 
 # Home Page
-@app.route(f"{base_url}", methods=['GET', 'POST'])
+@app.route("{}".format(base_url), methods=['GET', 'POST'])
 def index():
     print("Loading Home Page...")
     global switch, cap, vision_mode
@@ -78,7 +78,7 @@ def index():
         return render_template("index.html")
     return render_template("index.html")
 
-@app.route(f"{base_url}/video_feed/")
+@app.route("{}/video_feed/".format(base_url))
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
