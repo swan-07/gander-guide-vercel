@@ -20,7 +20,7 @@ class MiDaS:
         self.midas.to(self.device)
         self.midas.eval()
         self.midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms")
-        self.yolo_model = YOLO('weights.pt')
+        self.yolo_model = YOLO('coco-model.pt')
         
         self.FOV = 70.42 # deg
         self.min_angle_for_prompt = 10 # deg
