@@ -28,7 +28,7 @@ class MiDaS:
         self.min_danger_for_complete_cover = 0.6 # arbitrary
 
         self.website_image = None # to be displayed on MiDaS view on the website
-        self.recent_warning = "Good"
+        self.current_warning = "Good"
 
         self.bestXs = [0, 0] # init a queue
 
@@ -83,8 +83,8 @@ class MiDaS:
         # x and y to check for furniture there
         cv2.circle(self.website_image, pos, 8, (0, 0, 0), 2) # draw a circle to show where furniture is being checked
 
-        self.recent_warning = f"Saying {something}!" if pos is None else f"{self.find_furniture(pos[0], pos[1], pic)} {something}" # placeholder for text to speech
-        print("PLACEHOLDER SAY() CALLED: ", self.recent_warning) 
+        self.current_warning = f"Saying {something}!" if pos is None else f"{self.find_furniture(pos[0], pos[1], pic)} {something}" # placeholder for text to speech
+        print("PLACEHOLDER SAY() CALLED: ", self.current_warning) 
 
     def predict(self, img):
         input_batch = self.transform(img).to(self.device)
@@ -114,6 +114,8 @@ class MiDaS:
         output = img * scale_factor
         self.website_image = output
         point = None
+        if vibrate == "No": 
+            self.current_warning = None
         # check for complete obstructedness
         if np.mean(output) > (self.min_danger_for_complete_cover*scale_factor):
             if vibrate != "No":
@@ -125,7 +127,7 @@ class MiDaS:
                     self.say(" in the way; back up", pos=point, pic=colorful_image)
                 self.states.append(1)
             if vibrate == "Website":
-                cv2.putText(self.website_image, f"Most recent warning: {self.recent_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                cv2.putText(self.website_image, f"Most recent warning: {self.current_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
                 cv2.putText(self.website_image, f"Vibration amplitude: {self.amplitude}", (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
                 cv2.putText(self.website_image, f"Vibration duration: {self.period}", (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
 
@@ -171,7 +173,7 @@ class MiDaS:
                             self.say("Turn right")
                         self.states.append(6)
                 if vibrate == "Website":
-                    cv2.putText(self.website_image, f"Most recent warning: {self.recent_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                    cv2.putText(self.website_image, f"Most recent warning: {self.current_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
                     cv2.putText(self.website_image, f"Vibration amplitude: {self.amplitude}", (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
                     cv2.putText(self.website_image, f"Vibration duration: {self.period}", (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
             else:
@@ -189,7 +191,7 @@ class MiDaS:
                         self.say(" to the left; turn right", pos=np.unravel_index(np.argmax(output * self.depth_filter), output.shape), pic=colorful_image)
                     self.states.append(int(right) + 2)
                 if vibrate == "Website":
-                    cv2.putText(self.website_image, f"Most recent warning: {self.recent_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
+                    cv2.putText(self.website_image, f"Most recent warning: {self.current_warning}", (6, 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
                     cv2.putText(self.website_image, f"Vibration amplitude: {self.amplitude}", (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
                     cv2.putText(self.website_image, f"Vibration duration: {self.period}", (6, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 255), 1, cv2.LINE_AA)
 
