@@ -1,9 +1,5 @@
 {
-    "builds": [
-      {
-        "use": "@vercel/python"
-      }
-    ],
+    "builds": [{ "src": "package.json", "use": "vercel-sapper" }],
     "routes": [
       {
         "src": "/(.*)",
